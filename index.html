@@ -1,0 +1,76 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Chandra Bubbles</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Style files -->
+    <link rel="stylesheet" href="css/normalize.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+    <link rel="stylesheet" href="css/responsive.css" type="text/css">
+
+    <!-- <script src="js/vendor/modernizr-2.8.3.min.js"></script>-->
+    <script src="libs/jquery-1.10.1.js"></script>
+    <script src="libs/d3.v3.min.js"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <header>
+            <h1>Chandra Bubbles</h1>
+            <h3>The first 15 years of Chandra observations</h3>
+            <p>Click a cycle button below to see approved Chandra proposals for the selected cycle.</p>
+            <p>Each circle represents a single science proposal, color-coded to represent science category, and sized to represent time warded in kiloseconds</p>
+        </header>
+
+        <main>
+            <div id="cycle_selector_buttons">
+                <button class="cycle btn" id="cycle15">Cycle 15</button>
+                <button class="cycle btn" id="cycle14">Cycle 14</button>
+                <button class="cycle btn" id="cycle13">Cycle 13</button>
+                <button class="cycle btn" id="cycle12">Cycle 12</button>
+                <button class="cycle btn" id="cycle11">Cycle 11</button>
+                <button class="cycle btn" id="cycle10">Cycle 10</button>
+                <button class="cycle btn" id="cycle09">Cycle 9</button>
+                <button class="cycle btn" id="cycle08">Cycle 8</button>
+                <button class="cycle btn" id="cycle07">Cycle 7</button>
+                <button class="cycle btn" id="cycle06">Cycle 6</button>
+                <button class="cycle btn" id="cycle05">Cycle 5</button>
+                <button class="cycle btn" id="cycle04">Cycle 4</button>
+                <button class="cycle btn" id="cycle03">Cycle 3</button>
+                <button class="cycle btn" id="cycle02">Cycle 2</button>
+                <button class="cycle btn" id="cycle01">Cycle 1</button>
+                <br />
+                <button class="cycle btn" id="remove">Clear</button>
+            </div>
+
+            <div id="tooltip" class="hidden">
+                <h4>Proposal    <span id="prop_num" class="appended_data"></span></h4>
+                <div id="hbar"></div>
+                <p>Principle Investigator: <span id="pi" class="appended_data"></span></p>
+                <p>Title:       <span id="title" class="appended_data"></span></p>
+                <p>Time (ks):        <span id="time" class="appended_data"></span></p>
+                <p>Category:    <span id="category" class="appended_data"></span></p>
+                <p>Type:        <span id="type" class="appended_data"></span></p>
+                <p>Abstract:    <span id="abstract" class="appended_data"></span></p>
+            </div>
+
+            <div id="vis"></div>
+        </main>
+
+
+        <div class="push"></div>
+    </div> <!-- wrapper -->
+
+    <footer>footer text</footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

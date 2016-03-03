@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bubble Data - Chandra</title>
+    <script src="/libs/d3.v3.min.js"></script>
+    <script src='/libs/FileSaver.js'></script>
+</head>
+<body>
+<h1>Building Chandra Data into JSON</h1>
+<script>
+
+var nodes = [];
+
+d3.json("/assets/observationData.json", function(error, data) {
+	if (error) {console.log(error);}
+	proposalData = data;
+
+	for (key in proposalData) {
+		node = {
+			'proposal_number': key,
+			'cycle': key.substring(0,2),
+			'first': proposalData[key][0]['first'],
+			'last': proposalData[key][0]['last'],
+			'time': parseFloat(proposalData[key][0]['approved_time']),
+			'category': proposalData[key][0]['category_descrip'],
+			'title': proposalData[key][0]['title'],
+			'type': proposalData[key][0]['type'],
+			'abstract': proposalData[key][0]['abstract'],
+	    	x: Math.random() * 900,
+	    	y: Math.random() * 800
+		}
+
+		//if ((!isNaN(node['time'])) && (node['cycle'] === "03")) {
+		if (!isNaN(node['time'])) {
+			//console.log(selected_cycles);
+			nodes.push(node);
+		};
+	}
+	saveToFile(nodes,'nodeData.json');
+
+});
+
+
+  var saveToFile = function(object, filename){
+    var blob, blobText;
+    blobText = [JSON.stringify(object)];
+    blob = new Blob(blobText, {
+      type: 'text/plain;charset=utf-8'
+    });
+    saveAs(blob, filename);
+  }
+</script>
+</body>
+</html>
