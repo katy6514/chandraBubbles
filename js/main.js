@@ -26,8 +26,8 @@ var nodes = [];
 var vis, force, radius_scale;
 
 var fill_color = d3.scale.ordinal()
-                    .domain(["STARS AND WD", 
-                            "GALACTIC DIFFUSE EMISSION AND SURVEYS", 
+                    .domain(["STARS AND WD",
+                            "GALACTIC DIFFUSE EMISSION AND SURVEYS",
                             "WD BINARIES AND CV",
                             "BH AND NS BINARIES",
                             "SN, SNR AND ISOLATED NS",
@@ -38,8 +38,8 @@ var fill_color = d3.scale.ordinal()
                             "EXTRAGALACTIC DIFFUSE EMISSION AND SURVEYS",
                             "GALACTIC DIFFUSE EMISSION AND SURVEYS",
                             "SOLAR SYSTEM"])
-                    .range(["#66c2a4", 
-                            "#8c96c6", 
+                    .range(["#66c2a4",
+                            "#8c96c6",
                             "#7bccc4",
                             "#fc8d59",
                             "#74a9cf",
@@ -59,13 +59,13 @@ var svg = d3.select("#vis")
             .attr("id", "svg_vis");
 
 
-// Read data and attach to nodes            
+// Read data and attach to nodes
 d3.json("/assets/nodeData.json", function(error, data) {
     nodes = data;
 
     var time_range = d3.extent(nodes, function(d){return d['time'];})
     radius_scale = d3.scale.linear().domain(time_range).range([3, 160])
-    
+
     current_cycle = "15";
     make_nodes(current_cycle);
 
@@ -79,7 +79,7 @@ function make_nodes(cycle){
 	//console.log(nodes.length)
 	for (var i = 0; i < nodes.length; i++) {
 		if (nodes[i]['cycle'] === cycle) { // check against selected cycles here
-			nodes_to_plot.push(nodes[i]); 
+			nodes_to_plot.push(nodes[i]);
 		};
 		//console.log(cycle);
 	};
@@ -87,7 +87,7 @@ function make_nodes(cycle){
     // select circles
 	var circles = svg.selectAll("circle")
                     .data(nodes_to_plot); //bind data to nodes
-    
+
     // enter data
     circles.enter()
             .append("circle")
@@ -96,12 +96,12 @@ function make_nodes(cycle){
             .attr("stroke-width", 1.5)
             .attr("stroke", function(d) {return d3.rgb(fill_color(d['category'])).darker();});
 
-    // display bubbles in svg    
+    // display bubbles in svg
     circles.transition()
         .duration(2000)
         .attr("r", function(d){
             return radius_scale(d['time']);
-        }); 
+        });
 
     // make tooltip info box
     circles.on("mouseover", function(d) {
@@ -143,6 +143,24 @@ function remove_nodes(){
 }
 
 
+d3.selectAll("button").on("click", function(){
+    var buttonID = d3.select(this).attr("id")
+    var clicked_cycle = buttonID.substring(5,7)
+
+    //remove_nodes();
+    svg.selectAll("circle")
+        .transition()
+        .duration(2000)
+        .attr("cx", 2*w)
+        .remove();
+
+    svg.selectAll("circle").exit()
+
+    make_nodes(clicked_cycle);
+
+})
+
+
 // Sets the "repulsion" between each node
 function charge(d) {
 
@@ -167,24 +185,10 @@ function display_group_all(circles) {
         });
         force.start();
 }
- 
+
 function move_towards_center(alpha) {
 	return function(d) {
 		d.x = d.x + (center.x - d.x) * (damper + 0.02) * alpha;
 		d.y = d.y + (center.y - d.y) * (damper + 0.02) * alpha;
 	};
 }
-
-
-d3.selectAll("button").on("click", function(){
-    var buttonID = d3.select(this).attr("id")
-    var clicked_cycle = buttonID.substring(5,7)
-    
-    remove_nodes();
-    make_nodes(clicked_cycle);
-
-})
-
-
-
-
