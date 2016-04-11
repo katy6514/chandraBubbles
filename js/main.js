@@ -19,11 +19,14 @@ var w = 900;
 var h = 600;
 var center = {x: w/2, y: h/2};
 
+var drawTime = 750;
+
 var layout_gravity = -0.1
 var damper = 0.5
 
 var nodes = [];
-var vis, force, radius_scale;
+var nodes_to_plot = [];
+var vis, force, radius_scale, time_range;
 
 var fill_color = d3.scale.ordinal()
                     .domain(["STARS AND WD",
@@ -61,9 +64,10 @@ var svg = d3.select("#vis")
 
 // Read data and attach to nodes
 d3.json("/assets/nodeData.json", function(error, data) {
+    // nodes = 0;
     nodes = data;
 
-    var time_range = d3.extent(nodes, function(d){return d['time'];})
+    time_range = d3.extent(nodes, function(d){return d['time'];})
     radius_scale = d3.scale.linear().domain(time_range).range([3, 160])
 
     current_cycle = "15";
@@ -74,14 +78,14 @@ d3.json("/assets/nodeData.json", function(error, data) {
 
 // make nodes
 function make_nodes(cycle){
-	var nodes_to_plot = [];
+
+    nodes_to_plot = [];
 
 	//console.log(nodes.length)
 	for (var i = 0; i < nodes.length; i++) {
 		if (nodes[i]['cycle'] === cycle) { // check against selected cycles here
 			nodes_to_plot.push(nodes[i]);
 		};
-		//console.log(cycle);
 	};
 
     // select circles
@@ -92,7 +96,14 @@ function make_nodes(cycle){
     circles.enter()
             .append("circle")
             .attr("r", 0)
-            .attr("fill", function(d) { return fill_color(d['category']) ;})
+            .attr("fill", function(d) {
+                // console.log(d);
+                // if (d['last']=="Sasaki") {
+                //     console.log("fill: "+d['category']);
+                //     console.log(fill_color(d['category']));
+                // }
+                return fill_color(d['category']) ;
+            })
             .attr("stroke-width", 1.5)
             .attr("stroke", function(d) {return d3.rgb(fill_color(d['category'])).darker();});
 
@@ -105,12 +116,13 @@ function make_nodes(cycle){
 
     // make tooltip info box
     circles.on("mouseover", function(d) {
-            var xPosition = d.x;
-            var yPosition = d.y;
+            // var xPosition = d.x;
+            // var yPosition = d.y;
+            // console.log(d);
 
             d3.select("#tooltip")
                 .style("left", 700 + "px")
-                .style("top", 430 + "px")
+                .style("top", 480 + "px")
             d3.select("#prop_num").text(d['proposal_number'])
             d3.select("#pi").text(d['last'])
             d3.select("#title").text(d['title'])
@@ -118,7 +130,7 @@ function make_nodes(cycle){
             d3.select("#type").text(d['type']);
             d3.select("#hbar")
                 .style("background-color", function() {
-                // console.log(d);
+                 console.log("bar: "+d['category']);
                 return fill_color(d['category']) ;
             });
             d3.select("#category").text(d['category'])
@@ -134,13 +146,39 @@ function make_nodes(cycle){
 
 // remove the nodes
 function remove_nodes(){
-    console.log("remove_nodes called")
+    // console.log("remove_nodes called")
     svg.selectAll("circle")
         .transition()
         .duration(2000)
         .attr("cx", 2*w)
         .remove();
 }
+
+
+
+d3.selectAll("button").on("click", function(){
+    var buttonID = d3.select(this).attr("id")
+    // console.log(buttonID);
+    var clicked_cycle = buttonID.substring(5,7)
+
+
+    remove_nodes();
+
+    setTimeout(function() {
+     	make_nodes(clicked_cycle);
+    }, drawTime + 500);
+    // make_nodes(clicked_cycle);
+
+})
+
+
+// ------------------------------------------------------------------
+// ------------------------------------------------------------------
+//          Motion-specific code
+// ------------------------------------------------------------------
+// ------------------------------------------------------------------
+
+
 
 
 // Sets the "repulsion" between each node
@@ -174,13 +212,3 @@ function move_towards_center(alpha) {
 		d.y = d.y + (center.y - d.y) * (damper + 0.02) * alpha;
 	};
 }
-
-
-d3.selectAll("button").on("click", function(){
-    var buttonID = d3.select(this).attr("id")
-    var clicked_cycle = buttonID.substring(5,7)
-
-    remove_nodes();
-    make_nodes(clicked_cycle);
-
-})

@@ -35,7 +35,7 @@ var latScale = d3.scale.linear()
 
 // World Projection
 var worldProjection = d3.geo.orthographic()
-    .scale(world.scale) 
+    .scale(world.scale)
     .translate([world.width/2,world.height/2])
     .rotate(c0)
     .clipAngle(90)
@@ -54,9 +54,9 @@ var worldSvg = d3.select('#vis').append('svg')
 var worldGroup = worldSvg.append('g')
 		.classed('world-group', true);
 
-// world defs 
+// world defs
 var worldDefs = worldGroup.append('defs');
-		
+
 	worldDefs.append('path')
     .datum({type: 'Sphere'})
     .attr('id', 'world-path')
@@ -74,7 +74,7 @@ worldGroup.append('path')
 
 // World Projection
 var starProjection = d3.geo.orthographic()
-    .scale(star.scale) 
+    .scale(star.scale)
     .translate([star.width/2,star.height/2])
     // .rotate(c0)
     .clipAngle(90)
@@ -92,7 +92,7 @@ var starGroup = starSvg.append('g')
 
 // world defs  !to be removed!
 var starDefs = starGroup.append('defs');
-		
+
 starDefs.append('path')
     .datum({type: 'Sphere'})
     .attr('id', 'star-path')
@@ -339,7 +339,7 @@ function make_nodes(currentCycle) {
       d.y = d.y + (center.y - d.y) * (damper + 0.02) * alpha;
     }
   }
-  
+
   //console.log(chandraData.cycles[currentCycle].length);
 
   var count =0;
@@ -520,4 +520,3 @@ var zoomOut = controls.append('div')
     .classed('scale-down', true)
     .text('-')
     .on('click', scaleDown);
-
