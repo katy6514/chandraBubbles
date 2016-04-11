@@ -143,24 +143,6 @@ function remove_nodes(){
 }
 
 
-d3.selectAll("button").on("click", function(){
-    var buttonID = d3.select(this).attr("id")
-    var clicked_cycle = buttonID.substring(5,7)
-
-    //remove_nodes();
-    svg.selectAll("circle")
-        .transition()
-        .duration(2000)
-        .attr("cx", 2*w)
-        .remove();
-
-    svg.selectAll("circle").exit()
-
-    make_nodes(clicked_cycle);
-
-})
-
-
 // Sets the "repulsion" between each node
 function charge(d) {
 
@@ -192,3 +174,13 @@ function move_towards_center(alpha) {
 		d.y = d.y + (center.y - d.y) * (damper + 0.02) * alpha;
 	};
 }
+
+
+d3.selectAll("button").on("click", function(){
+    var buttonID = d3.select(this).attr("id")
+    var clicked_cycle = buttonID.substring(5,7)
+
+    remove_nodes();
+    make_nodes(clicked_cycle);
+
+})
