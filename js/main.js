@@ -109,8 +109,8 @@ function make_nodes(cycle){
             var yPosition = d.y;
 
             d3.select("#tooltip")
-                .style("left", xPosition+200 + "px")
-                .style("top", yPosition+200 + "px")
+                .style("left", 700 + "px")
+                .style("top", 430 + "px")
             d3.select("#prop_num").text(d['proposal_number'])
             d3.select("#pi").text(d['last'])
             d3.select("#title").text(d['title'])
