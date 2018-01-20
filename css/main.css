@@ -16,13 +16,25 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
-.wrapper{
+#wrapper{
     min-height: 100%;
     height: auto !important;
     height: 100%;
     max-width: 900px;
     margin: 0 auto -4em;
 }
+
+@media only screen  and (max-width : 1025px) and (min-width : 601px) {
+    #wrapper{
+        width:80%;
+        margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width: 600px) and (min-width: 0px) {
+
+}
+
 h1,h2,h3,h4,h5 {font-family: "Ubuntu", sans-serif;}
 
 h1{font-size: 40px;}
@@ -45,6 +57,9 @@ header h3{
     color: #666;
 }
 
+header{
+    padding:10px;
+}
 
 /* ------------------------------------------------
     Footer
@@ -105,23 +120,6 @@ footer{background-color: #222;}
     Button styles
 ------------------------------------------------ */
 
-/*.btn {
-    -webkit-border-radius: 19;
-    -moz-border-radius: 19;
-    border-radius: 19px;
-    font-family: 'Open Sans', sans-serif;
-    color: #ffffff;
-    font-size: 16px;
-    background: #3498db;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
-}
-
-.btn:hover {
-    background: #66c4ff;
-    text-decoration: none;
-}*/
-
 .btn {
     font-family: 'Open Sans', sans-serif;
     font-size: 15px;
@@ -174,4 +172,21 @@ body, html { font-size: 100%; padding: 0; margin: 0; height: 100%;}
 #remove.btn {
     color: red;
     background: #fff;
+}
+
+#vis{
+    width: 600px;
+    height: 600px;
+    margin: 0px auto;
+
+}
+@media only screen  and (max-width : 1025px) and (min-width : 601px) {
+    #vis{
+        width:400px;
+        margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width: 600px) and (min-width: 0px) {
+
 }

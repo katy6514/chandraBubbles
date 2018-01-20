@@ -15,7 +15,7 @@ var selected_cycle;
 	D3 Code
 -------------------------------------------------------------------------------------------------*/
 
-var w = 900;
+var w = 600;
 var h = 600;
 var center = {x: w/2, y: h/2};
 
@@ -64,15 +64,20 @@ var svg = d3.select("#vis")
 
 // Read data and attach to nodes
 d3.json("/assets/nodeData.json", function(error, data) {
-    // nodes = 0;
-    nodes = data;
 
-    time_range = d3.extent(nodes, function(d){return d['time'];})
-    radius_scale = d3.scale.linear().domain(time_range).range([3, 160])
+    if (error) {  //If error is not null, something went wrong.
+        console.log(error);  //Log the error.
+    } else {      //If no error, the file loaded correctly. Yay!
+        // console.log(data);   //Log the data.
+        // nodes = 0;
+        nodes = data;
 
-    current_cycle = "15";
-    make_nodes(current_cycle);
+        time_range = d3.extent(nodes, function(d){return d['time'];})
+        radius_scale = d3.scale.linear().domain(time_range).range([3, 160])
 
+        current_cycle = "15";
+        make_nodes(current_cycle);
+    }
 });
 
 
